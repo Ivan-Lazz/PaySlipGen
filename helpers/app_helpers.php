@@ -63,21 +63,6 @@ function app($key = null)
  */
 function config($key, $default = null)
 {
-    // For testing environments, return some default values
-    if (defined('TESTING') && TESTING) {
-        $testConfig = [
-            'app.key' => 'base64:testing-key',
-            'database.default' => 'sqlite',
-            'database.connections.sqlite.database' => ':memory:',
-            'logging.channel' => 'testing',
-            'logging.channels.testing.driver' => 'null'
-        ];
-        
-        if (isset($testConfig[$key])) {
-            return $testConfig[$key];
-        }
-    }
-    
     $parts = explode('.', $key);
     $filename = array_shift($parts);
     
@@ -116,26 +101,6 @@ function config($key, $default = null)
  */
 function logger($message = null, array $context = [], $level = 'info')
 {
-    // For testing, return a null logger
-    if (defined('TESTING') && TESTING) {
-        static $testLogger = null;
-        
-        if ($testLogger === null) {
-            $testLogger = new class {
-                public function __call($name, $arguments) {
-                    // Null logger
-                    return null;
-                }
-            };
-        }
-        
-        if ($message === null) {
-            return $testLogger;
-        }
-        
-        return $testLogger->$level($message, $context);
-    }
-    
     $logger = app('logger');
     
     if ($message === null) {

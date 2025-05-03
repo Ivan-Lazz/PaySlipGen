@@ -149,7 +149,9 @@ class ReportGenerator
                     e.firstname, 
                     e.lastname, 
                     b.preferred_bank, 
-                    b.bank_account, 
+                    b.bank_account,
+                    p.salary,
+                    p.bonus, 
                     p.amount, 
                     p.date_of_payment
                 FROM 
@@ -412,12 +414,14 @@ class ReportGenerator
         // In a real implementation, we would query by department
         // For this example, we'll simulate it
         
-        // Get all payslips in the date range
+        // Get all payslips in the date range with salary and bonus
         $query = "SELECT 
                     p.payslip_no, 
                     p.employee_id,
                     e.firstname,
                     e.lastname,
+                    p.salary,
+                    p.bonus,
                     p.amount,
                     p.date_of_payment,
                     p.payment_status

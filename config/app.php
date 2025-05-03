@@ -1,125 +1,92 @@
 <?php
 
-namespace Core;
-
 /**
- * Application class
+ * Application configuration
+ * 
+ * This file contains the application configuration values
  */
-class App
-{
-    /**
-     * The application container
-     * 
-     * @var Container
-     */
-    private static $container;
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Application Environment
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the "environment" your application is currently
+    | running in. This may determine how you prefer to configure various
+    | services the application utilizes.
+    |
+    */
+    'env' => env('APP_ENV', 'production'),
     
-    /**
-     * Initialize the application
-     * 
-     * @return void
-     */
-    public static function init()
-    {
-        // Load environment variables
-        self::loadEnvironment();
-        
-        // Initialize container if not set
-        if (!self::$container) {
-            self::$container = new Container();
-        }
-        
-        // Register core services
-        self::registerServices();
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | Application Debug Mode
+    |--------------------------------------------------------------------------
+    |
+    | When your application is in debug mode, detailed error messages with
+    | stack traces will be shown on every error that occurs within your
+    | application. If disabled, a simple generic error page is shown.
+    |
+    */
+    'debug' => env('APP_DEBUG', false),
     
-    /**
-     * Load environment variables
-     * 
-     * @return void
-     */
-    private static function loadEnvironment()
-    {
-        $envFile = dirname(__DIR__) . '/.env';
-        
-        if (file_exists($envFile)) {
-            $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            
-            foreach ($lines as $line) {
-                if (strpos($line, '=') !== false) {
-                    list($key, $value) = explode('=', $line, 2);
-                    $key = trim($key);
-                    $value = trim($value);
-                    
-                    putenv("$key=$value");
-                    $_ENV[$key] = $value;
-                }
-            }
-        }
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | Application Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the name of your application. This value is used when the
+    | framework needs to place the application's name in a notification or
+    | any other location as required by the application or its packages.
+    |
+    */
+    'name' => env('APP_NAME', 'Payroll System'),
     
-    /**
-     * Register core services in the container
-     * 
-     * @return void
-     */
-    private static function registerServices()
-    {
-        // Register database connection
-        self::$container->singleton('db', function() {
-            return Database::getInstance()->getConnection();
-        });
-        
-        // Register logger
-        self::$container->singleton('logger', function() {
-            return new Logger(config('logging.channel'));
-        });
-        
-        // Register router
-        self::$container->singleton('router', function() {
-            return new Router();
-        });
-        
-        // Register request
-        self::$container->singleton('request', function() {
-            return new Request();
-        });
-        
-        // Register response
-        self::$container->singleton('response', function() {
-            return new Response();
-        });
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | Application Key
+    |--------------------------------------------------------------------------
+    |
+    | This key is used for encrypting data and should be set to a random,
+    | 32 character string. This can be generated using the command:
+    | php -r "echo bin2hex(random_bytes(32));"
+    |
+    */
+    'key' => env('APP_KEY', 'base64:' . base64_encode(str_repeat('s', 32))),
     
-    /**
-     * Get the application container
-     * 
-     * @return Container
-     */
-    public static function container()
-    {
-        return self::$container;
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | Application Timezone
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default timezone for your application, which
+    | will be used by the PHP date and date-time functions.
+    |
+    */
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
     
-    /**
-     * Set the application container (for testing)
-     * 
-     * @param Container $container
-     * @return void
-     */
-    public static function setContainer(Container $container)
-    {
-        self::$container = $container;
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | Application Locale Configuration
+    |--------------------------------------------------------------------------
+    |
+    | The application locale determines the default locale that will be used
+    | by the translation service provider. You are free to set this value
+    | to any of the locales which will be supported by the application.
+    |
+    */
+    'locale' => env('APP_LOCALE', 'en'),
     
-    /**
-     * Resolve a dependency from the container
-     * 
-     * @param string $key
-     * @return mixed
-     */
-    public static function resolve($key)
-    {
-        return self::$container->make($key);
-    }
-}
+    /*
+    |--------------------------------------------------------------------------
+    | Application Fallback Locale
+    |--------------------------------------------------------------------------
+    |
+    | The fallback locale determines the locale to use when the current one
+    | is not available. You may change the value to correspond to any of
+    | the language folders that are provided through your application.
+    |
+    */
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+];

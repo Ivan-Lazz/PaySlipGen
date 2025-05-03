@@ -1,6 +1,45 @@
 <?php
 
 /**
+ * Get environment variable
+ *
+ * @param string $key
+ * @param mixed $default
+ * @return mixed
+ */
+function env($key, $default = null)
+{
+    $value = getenv($key);
+    
+    if ($value === false) {
+        return $default;
+    }
+    
+    // Convert boolean-like values
+    switch (strtolower($value)) {
+        case 'true':
+        case '(true)':
+            return true;
+        case 'false':
+        case '(false)':
+            return false;
+        case 'empty':
+        case '(empty)':
+            return '';
+        case 'null':
+        case '(null)':
+            return null;
+    }
+    
+    // Handle quoted values
+    if (strlen($value) > 1 && $value[0] === '"' && $value[-1] === '"') {
+        return substr($value, 1, -1);
+    }
+    
+    return $value;
+}
+
+/**
  * Get application container or resolve an entry
  *
  * @param string|null $key
@@ -45,7 +84,7 @@ function config($key, $default = null)
     static $configs = [];
     
     if (!isset($configs[$filename])) {
-        $path = APP_PATH . "/config/{$filename}.php";
+        $path = dirname(__DIR__) . "/config/{$filename}.php";
         
         if (file_exists($path)) {
             $configs[$filename] = require $path;

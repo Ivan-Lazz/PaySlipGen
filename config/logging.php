@@ -11,7 +11,7 @@ return [
     | simple file-based logging driver.
     |
     */
-    'default' => env('LOG_CHANNEL', 'file'),
+    'default' => getenv()('LOG_CHANNEL', 'file'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,19 +26,19 @@ return [
         'file' => [
             'driver' => 'file',
             'path' => dirname(__DIR__) . '/logs/app.log',
-            'level' => env('LOG_LEVEL', 'debug'),
+            'level' => getenv()('LOG_LEVEL', 'debug'),
         ],
         
         'daily' => [
             'driver' => 'daily',
             'path' => dirname(__DIR__) . '/logs/app.log',
-            'level' => env('LOG_LEVEL', 'debug'),
+            'level' => getenv()('LOG_LEVEL', 'debug'),
             'days' => 14,
         ],
         
         'syslog' => [
             'driver' => 'syslog',
-            'level' => env('LOG_LEVEL', 'debug'),
+            'level' => getenv()('LOG_LEVEL', 'debug'),
         ],
         
         'null' => [

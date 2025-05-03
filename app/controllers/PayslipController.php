@@ -88,6 +88,14 @@ class PayslipController extends Controller
         // Generate payslip number
         $data['payslip_no'] = $this->payslipService->generatePayslipNumber();
         
+        // Set bonus to 0 if not provided
+        if (!isset($data['bonus'])) {
+            $data['bonus'] = 0;
+        }
+        
+        // Calculate amount as salary + bonus automatically
+        $data['amount'] = $data['salary'] + $data['bonus'];
+        
         // Create payslip
         $result = $this->payslip->create($data);
         
@@ -116,8 +124,16 @@ class PayslipController extends Controller
         }
         
         // Check if payslip exists
-        if (!$this->payslip->find($id)) {
+        $currentPayslip = $this->payslip->find($id);
+        if (!$currentPayslip) {
             return $this->error('Payslip not found', 404);
+        }
+        
+        // If salary or bonus is being updated, recalculate the amount
+        if (isset($data['salary']) || isset($data['bonus'])) {
+            $salary = isset($data['salary']) ? $data['salary'] : $currentPayslip['salary'];
+            $bonus = isset($data['bonus']) ? $data['bonus'] : ($currentPayslip['bonus'] ?? 0);
+            $data['amount'] = $salary + $bonus;
         }
         
         // Update payslip

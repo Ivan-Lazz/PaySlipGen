@@ -1,0 +1,35 @@
+{
+    "name": "payroll-system/api",
+    "description": "Payroll System API",
+    "type": "project",
+    "require": {
+        "php": "^7.4|^8.0",
+        "vlucas/phpdotenv": "^5.3",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-sodium": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "core/"
+        },
+        "files": [
+            "helpers/app_helpers.php"
+        ]
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "php -r \"copy('.env.example', '.env');\"",
+            "php -r \"file_put_contents('.env', str_replace('APP_ENV=development', 'APP_ENV=production', file_get_contents('.env')));\""
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

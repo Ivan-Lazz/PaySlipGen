@@ -1,0 +1,43 @@
+# Environment files
+.env
+
+# Composer
+/vendor/
+composer.phar
+
+# Node dependencies (if using any)
+/node_modules/
+
+# IDE settings
+.idea/
+.vscode/
+
+# Log files
+*.log
+/logs/*.log
+
+# Cache files
+/storage/cache/*
+!/storage/cache/.gitkeep
+
+# Rate limit files
+/storage/rate_limits/*
+!/storage/rate_limits/.gitkeep
+
+# Upload files
+/storage/uploads/*
+!/storage/uploads/.gitkeep
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Test files and directories
+/tests/
+phpunit.xml
+phpunit.xml.dist
+.phpunit.result.cache
+
+# Development files
+.env.example
+README.md

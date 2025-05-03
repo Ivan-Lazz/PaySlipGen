@@ -17,7 +17,8 @@ function snake_case($string)
     // Replace spaces with underscores
     $string = preg_replace('/\s+/', '_', $string);
     
-    return $string;
+    // Remove leading and trailing underscores
+    return trim($string, '_');
 }
 
 /**
@@ -97,6 +98,10 @@ function str_truncate($string, $length, $append = '...')
  */
 function str_starts_with($haystack, $needle)
 {
+    if ($needle === '') {
+        return true;
+    }
+    
     return strpos($haystack, $needle) === 0;
 }
 
@@ -109,6 +114,10 @@ function str_starts_with($haystack, $needle)
  */
 function str_ends_with($haystack, $needle)
 {
+    if ($needle === '') {
+        return true;
+    }
+    
     return substr($haystack, -strlen($needle)) === $needle;
 }
 
@@ -121,6 +130,10 @@ function str_ends_with($haystack, $needle)
  */
 function str_contains($haystack, $needle)
 {
+    if ($needle === '') {
+        return true;
+    }
+    
     return strpos($haystack, $needle) !== false;
 }
 

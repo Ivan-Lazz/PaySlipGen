@@ -96,7 +96,7 @@ function str_truncate($string, $length, $append = '...')
  * @param string $needle
  * @return bool
  */
-function str_starts_with($haystack, $needle)
+function str_starts_on($haystack, $needle)
 {
     if ($needle === '') {
         return true;
@@ -112,7 +112,7 @@ function str_starts_with($haystack, $needle)
  * @param string $needle
  * @return bool
  */
-function str_ends_with($haystack, $needle)
+function str_ends_on($haystack, $needle)
 {
     if ($needle === '') {
         return true;
@@ -128,7 +128,7 @@ function str_ends_with($haystack, $needle)
  * @param string $needle
  * @return bool
  */
-function str_contains($haystack, $needle)
+function str_contain($haystack, $needle)
 {
     if ($needle === '') {
         return true;
